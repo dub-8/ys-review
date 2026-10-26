@@ -52,15 +52,16 @@
   </header>
 
   <section>
-    <h2><span class="no">1</span>どんなご相談でしたか</h2>
+    <h2><span class="no">1</span>どんなご用件でしたか</h2>
     <p class="hint">あてはまるものを選んでください（いくつでも）</p>
     <div class="chips" data-group="topic">
+      <button class="chip" type="button" data-text="月極駐車場の手続き">月極駐車場の契約・解約</button>
       <button class="chip" type="button" data-text="相続した実家の売却">相続した実家の売却</button>
       <button class="chip" type="button" data-text="空き家">空き家のこと</button>
       <button class="chip" type="button" data-text="不動産の買取">買取</button>
       <button class="chip" type="button" data-text="土地の売却">土地の売却</button>
       <button class="chip" type="button" data-text="賃貸物件">賃貸（住まい・店舗・事務所など）</button>
-      <button class="chip" type="button" data-text="駐車場や物件の管理">管理</button>
+      <button class="chip" type="button" data-text="所有している駐車場や物件の管理">駐車場・物件の管理（オーナー様）</button>
       <button class="chip" type="button" data-text="不動産">その他</button>
     </div>
   </section>
@@ -72,6 +73,7 @@
       <button class="chip" type="button" data-text="説明がわかりやすかった" data-join="説明がわかりやすく">説明がわかりやすい</button>
       <button class="chip" type="button" data-text="気軽に相談できた" data-join="気軽に相談でき">相談しやすい</button>
       <button class="chip" type="button" data-text="連絡や対応が早かった" data-join="連絡や対応が早く">対応が早い</button>
+      <button class="chip" type="button" data-text="手続きがスムーズだった" data-join="手続きがスムーズで">手続きがスムーズ</button>
       <button class="chip" type="button" data-text="こちらの事情を聞いてもらえた" data-join="こちらの事情を聞いてもらえ">事情を聞いてくれた</button>
       <button class="chip" type="button" data-text="手続きの流れがよくわかった" data-join="手続きの流れがよくわかり">手続きの流れがわかった</button>
       <button class="chip" type="button" data-text="地元の事情に詳しかった" data-join="地元の事情に詳しく">地元に詳しい</button>
@@ -134,7 +136,9 @@
     const free = document.getElementById('free').value.trim();
     const improve = document.getElementById('improve').value.trim();
     const parts = [];
-    if (topics.length) parts.push(`${joinJa(topics)}のことで相談しました。`);
+    // オーナー様は今もお付き合いが続いているので「なっています」にする
+    const ongoing = topics.some(t => t.startsWith('所有している'));
+    if (topics.length) parts.push(`${joinJa(topics)}でお世話になって${ongoing ? 'います' : 'いました'}。`.replace('なっていました', 'なりました'));
     if (points.length) {
       // 最後以外は「〜く、〜でき、」とつなぐ形にする
       const p = points.map((b, i) => i < points.length - 1 ? b.dataset.join : b.dataset.text);
