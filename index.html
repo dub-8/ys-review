@@ -70,14 +70,14 @@
     <h2><span class="no">2</span>印象に残ったこと</h2>
     <p class="hint">あてはまるものがあれば選んでください（なければ飛ばしてOK）</p>
     <div class="chips" data-group="point">
-      <button class="chip" type="button" data-text="説明がわかりやすかった" data-join="説明がわかりやすく">説明がわかりやすい</button>
-      <button class="chip" type="button" data-text="気軽に相談できた" data-join="気軽に相談でき">相談しやすい</button>
-      <button class="chip" type="button" data-text="連絡や対応が早かった" data-join="連絡や対応が早く">対応が早い</button>
-      <button class="chip" type="button" data-text="手続きがスムーズだった" data-join="手続きがスムーズで">手続きがスムーズ</button>
-      <button class="chip" type="button" data-text="こちらの事情を聞いてもらえた" data-join="こちらの事情を聞いてもらえ">事情を聞いてくれた</button>
-      <button class="chip" type="button" data-text="手続きの流れがよくわかった" data-join="手続きの流れがよくわかり">手続きの流れがわかった</button>
-      <button class="chip" type="button" data-text="地元の事情に詳しかった" data-join="地元の事情に詳しく">地元に詳しい</button>
-      <button class="chip" type="button" data-text="条件に納得できた" data-join="条件に納得でき">条件に納得できた</button>
+      <button class="chip" type="button" data-text="説明がわかりやすかったです" data-join="説明がわかりやすく">説明がわかりやすい</button>
+      <button class="chip" type="button" data-text="気軽に相談できました" data-join="気軽に相談でき">相談しやすい</button>
+      <button class="chip" type="button" data-text="連絡や対応が早かったです" data-join="連絡や対応が早く">対応が早い</button>
+      <button class="chip" type="button" data-text="手続きがスムーズでした" data-join="手続きがスムーズで">手続きがスムーズ</button>
+      <button class="chip" type="button" data-text="こちらの事情をよく聞いてもらえました" data-join="こちらの事情をよく聞いてもらえ">事情を聞いてくれた</button>
+      <button class="chip" type="button" data-text="手続きの流れがよくわかりました" data-join="手続きの流れがよくわかり">手続きの流れがわかった</button>
+      <button class="chip" type="button" data-text="地元の事情に詳しかったです" data-join="地元の事情に詳しく">地元に詳しい</button>
+      <button class="chip" type="button" data-text="条件に納得できました" data-join="条件に納得でき">条件に納得できた</button>
     </div>
   </section>
 
@@ -99,6 +99,7 @@
     <h2>口コミの下書き</h2>
     <p class="hint">自由に書き直してください。気に入らなければ全部消して書いてもかまいません。</p>
     <textarea id="draft" rows="7"></textarea>
+    <button class="btn btn-sub" type="button" id="again">別の言い回しにする</button>
     <button class="btn btn-go" type="button" id="go">文章をコピーして Google の口コミ画面へ</button>
     <div class="toast" id="toast">コピーしました</div>
     <ol class="steps">
@@ -128,25 +129,45 @@
   const chosen = g => [...document.querySelectorAll(`[data-group="${g}"] .chip[aria-pressed="true"]`)];
   const picked = g => chosen(g).map(b => b.dataset.text);
   const joinJa = a => a.length <= 1 ? (a[0] || '') : a.slice(0, -1).join('、') + 'と' + a[a.length - 1];
+
+  // 文末だけをです・ます調にそろえる（お客様の言葉の中身は変えない）
+  const polite = t => {
+    t = t.trim().replace(/[。．.]+$/, '');
+    if (/[！？!?]$/.test(t) || /(です|ます|でした|ました|ません)$/.test(t)) return t;
+    const rules = [[/だった$/, 'でした'], [/かった$/, 'かったです'], [/(て|で)いる$/, '$1います'], [/(て|で)いた$/, '$1いました'],
+                   [/(し|でき|なり|あり|思い|感じ|助かり|もらい|もらえ)た$/, '$1ました'], [/(しい|ない|たい)$/, '$1です'], [/だ$/, 'です']];
+    for (const [re, to] of rules) if (re.test(t)) return t.replace(re, to);   // 最初に当てはまった1つだけ
+    return t;
+  };
   const endDot = s => /[。！？!?]$/.test(s) ? s : s + '。';
 
-  // 選んだ項目と書いた言葉だけを、そのままつなぐ（褒め言葉や評価は足さない）
+  // 言い回しのパターン（「別の言い回し」で切り替わる）。選んだ項目と書いた言葉だけを使い、褒め言葉や評価は足さない
+  let variant = 0;
   function compose() {
     const topics = picked('topic'), points = chosen('point');
     const free = document.getElementById('free').value.trim();
     const improve = document.getElementById('improve').value.trim();
-    const parts = [];
-    // オーナー様は今もお付き合いが続いているので「なっています」にする
+    const v = variant % 3, parts = [];
     const ongoing = topics.some(t => t.startsWith('所有している'));
-    if (topics.length) parts.push(`${joinJa(topics)}でお世話になって${ongoing ? 'います' : 'いました'}。`.replace('なっていました', 'なりました'));
-    if (points.length) {
-      // 最後以外は「〜く、〜でき、」とつなぐ形にする
-      const p = points.map((b, i) => i < points.length - 1 ? b.dataset.join : b.dataset.text);
-      parts.push(endDot(p.join('、')));
+    if (topics.length) {
+      const t = joinJa(topics);
+      parts.push(ongoing ? [`${t}でお世話になっています。`, `${t}をお願いしています。`, `${t}を任せています。`][v]
+                         : [`${t}でお世話になりました。`, `先日、${t}でお世話になりました。`, `${t}の件で利用しました。`][v]);
     }
-    if (free) parts.push(endDot(free));
-    if (improve) parts.push(endDot('気になった点は、' + improve));
-    return parts.join('\n');
+    if (points.length) {
+      const txt = points.map(b => b.dataset.text), jn = points.map(b => b.dataset.join);
+      const chain = (from, to) => endDot(jn.slice(from, to - 1).concat(txt[to - 1]).join('、'));
+      const n = points.length;
+      if (n === 1) parts.push(endDot(txt[0]));
+      else if (v === 2) { parts.push(endDot(txt[0])); parts.push('ほかにも、' + chain(1, n)); }
+      else if (n >= 4 || (v === 1 && n >= 3)) {          // 長くなるので2文に分ける
+        const h = Math.ceil(n / 2);
+        parts.push(chain(0, h)); parts.push('また、' + chain(h, n));
+      } else parts.push(chain(0, n));
+    }
+    if (free) parts.push(endDot(polite(free)));
+    if (improve) parts.push(endDot(['気になった点は、', '一点だけ気になったのは、', '強いて言えば、'][v] + polite(improve)));
+    return parts.join(String.fromCharCode(10));
   }
 
   function copy(text) {
@@ -156,9 +177,15 @@
   }
   function flash() { const el = document.getElementById('toast'); el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 2500); }
 
+  let lastMade = '';
+  document.getElementById('again').addEventListener('click', () => {
+    const d = document.getElementById('draft');
+    if (d.value !== lastMade && !confirm('書き直した内容は消えます。別の言い回しにしますか？')) return;
+    variant++; d.value = lastMade = compose();
+  });
   document.getElementById('make').addEventListener('click', () => {
     const d = document.getElementById('draft');
-    d.value = compose();
+    variant = 0; d.value = lastMade = compose();
     document.getElementById('result').style.display = 'block';
     document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
     if (!d.value) d.placeholder = 'ご自由にお書きください';
