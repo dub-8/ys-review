@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ご感想のお願い｜株式会社ワイズホーム</title>
+<style>
+  :root {
+    --ink: #1f2a37; --sub: #5b6676; --line: #d9dee5; --bg: #f6f4ef; --card: #ffffff;
+    --accent: #1f4e79; --accent-soft: #e6eef6; --warm: #c8641e;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: "Hiragino Sans", "BIZ UDPGothic", "Yu Gothic", "Meiryo", sans-serif;
+         font-size: 18px; line-height: 1.7; }
+  main { max-width: 560px; margin: 0 auto; padding: 20px 16px 48px; }
+  header { text-align: center; padding: 8px 0 4px; }
+  header .co { font-size: 15px; color: var(--sub); letter-spacing: .08em; }
+  h1 { font-size: 24px; margin: 6px 0 8px; }
+  .lead { font-size: 16px; color: var(--sub); margin: 0 0 20px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+            padding: 18px 16px; margin-bottom: 16px; }
+  h2 { font-size: 18px; margin: 0 0 4px; }
+  h2 .no { display: inline-block; width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+           color: #fff; text-align: center; line-height: 28px; font-size: 15px; margin-right: 8px; }
+  .hint { font-size: 14px; color: var(--sub); margin: 0 0 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { border: 1.5px solid var(--line); background: #fff; color: var(--ink); border-radius: 999px;
+          padding: 10px 16px; font-size: 16px; font-family: inherit; cursor: pointer; }
+  .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  textarea { width: 100%; border: 1.5px solid var(--line); border-radius: 10px; padding: 12px;
+             font-size: 17px; font-family: inherit; line-height: 1.7; resize: vertical; }
+  textarea:focus, .chip:focus-visible, button:focus-visible { outline: 3px solid #9cc1e6; outline-offset: 2px; }
+  .btn { display: block; width: 100%; border: 0; border-radius: 12px; padding: 16px; font-size: 18px;
+         font-weight: 700; font-family: inherit; cursor: pointer; }
+  .btn-main { background: var(--accent); color: #fff; }
+  .btn-go { background: var(--warm); color: #fff; margin-top: 12px; }
+  .btn-sub { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); margin-top: 10px; font-size: 16px; padding: 12px; }
+  #result { display: none; }
+  .steps { margin: 14px 0 0; padding-left: 1.3em; font-size: 15px; color: var(--sub); }
+  .toast { display: none; text-align: center; color: var(--accent); font-weight: 700; margin-top: 8px; }
+  footer { text-align: center; font-size: 13px; color: var(--sub); margin-top: 28px; line-height: 1.8; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="co">株式会社ワイズホーム</div>
+    <h1>ご感想をお聞かせください</h1>
+    <p class="lead">選んだり書いたりした内容から、口コミの下書きを作ります。<br>下書きは自由に書き直せます。投稿するかどうかも、お客様のご判断でかまいません。</p>
+  </header>
+
+  <section>
+    <h2><span class="no">1</span>どんなご相談でしたか</h2>
+    <p class="hint">あてはまるものを選んでください（いくつでも）</p>
+    <div class="chips" data-group="topic">
+      <button class="chip" type="button" data-text="相続した実家の売却">相続した実家の売却</button>
+      <button class="chip" type="button" data-text="空き家">空き家のこと</button>
+      <button class="chip" type="button" data-text="不動産の買取">買取</button>
+      <button class="chip" type="button" data-text="土地の売却">土地の売却</button>
+      <button class="chip" type="button" data-text="賃貸物件">賃貸（住まい・店舗・事務所など）</button>
+      <button class="chip" type="button" data-text="駐車場や物件の管理">管理</button>
+      <button class="chip" type="button" data-text="不動産">その他</button>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="no">2</span>印象に残ったこと</h2>
+    <p class="hint">あてはまるものがあれば選んでください（なければ飛ばしてOK）</p>
+    <div class="chips" data-group="point">
+      <button class="chip" type="button" data-text="説明がわかりやすかった" data-join="説明がわかりやすく">説明がわかりやすい</button>
+      <button class="chip" type="button" data-text="気軽に相談できた" data-join="気軽に相談でき">相談しやすい</button>
+      <button class="chip" type="button" data-text="連絡や対応が早かった" data-join="連絡や対応が早く">対応が早い</button>
+      <button class="chip" type="button" data-text="こちらの事情を聞いてもらえた" data-join="こちらの事情を聞いてもらえ">事情を聞いてくれた</button>
+      <button class="chip" type="button" data-text="手続きの流れがよくわかった" data-join="手続きの流れがよくわかり">手続きの流れがわかった</button>
+      <button class="chip" type="button" data-text="地元の事情に詳しかった" data-join="地元の事情に詳しく">地元に詳しい</button>
+      <button class="chip" type="button" data-text="条件に納得できた" data-join="条件に納得でき">条件に納得できた</button>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="no">3</span>ひとことご感想</h2>
+    <p class="hint">ご自身の言葉で、自由にどうぞ（任意）</p>
+    <textarea id="free" rows="3" placeholder="例）最初は何から始めればいいか分からなかったが…"></textarea>
+  </section>
+
+  <section>
+    <h2><span class="no">4</span>気になった点・改善してほしい点</h2>
+    <p class="hint">率直なご意見も、そのまま下書きに入ります（任意）</p>
+    <textarea id="improve" rows="2" placeholder="例）もう少し連絡がほしかった など"></textarea>
+  </section>
+
+  <button class="btn btn-main" type="button" id="make">下書きを作る</button>
+
+  <section id="result" style="margin-top:16px">
+    <h2>口コミの下書き</h2>
+    <p class="hint">自由に書き直してください。気に入らなければ全部消して書いてもかまいません。</p>
+    <textarea id="draft" rows="7"></textarea>
+    <button class="btn btn-go" type="button" id="go">文章をコピーして Google の口コミ画面へ</button>
+    <div class="toast" id="toast">コピーしました</div>
+    <ol class="steps">
+      <li>Google の画面で、星の数を選びます</li>
+      <li>本文の欄を長押しして「ペースト（貼り付け）」</li>
+      <li>内容を確かめて「投稿」</li>
+    </ol>
+    <button class="btn btn-sub" type="button" id="copyOnly">文章だけコピーする</button>
+  </section>
+
+  <footer>
+    入力した内容は、この画面の中だけで使われ、当社には送信・保存されません。<br>
+    株式会社ワイズホーム　愛知県一宮市松降1丁目11-16<br>
+    TEL 0586-71-0800
+  </footer>
+</main>
+
+<script>
+  // Google の口コミ投稿リンク（ビジネスプロフィール「口コミを増やす」→「リンクをコピー」で取得したものに差し替え）
+  const REVIEW_URL = 'https://g.page/r/CbX7C9r_iNbEEAI/review';
+
+  document.querySelectorAll('.chip').forEach(b => {
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'));
+  });
+
+  const chosen = g => [...document.querySelectorAll(`[data-group="${g}"] .chip[aria-pressed="true"]`)];
+  const picked = g => chosen(g).map(b => b.dataset.text);
+  const joinJa = a => a.length <= 1 ? (a[0] || '') : a.slice(0, -1).join('、') + 'と' + a[a.length - 1];
+  const endDot = s => /[。！？!?]$/.test(s) ? s : s + '。';
+
+  // 選んだ項目と書いた言葉だけを、そのままつなぐ（褒め言葉や評価は足さない）
+  function compose() {
+    const topics = picked('topic'), points = chosen('point');
+    const free = document.getElementById('free').value.trim();
+    const improve = document.getElementById('improve').value.trim();
+    const parts = [];
+    if (topics.length) parts.push(`${joinJa(topics)}のことで相談しました。`);
+    if (points.length) {
+      // 最後以外は「〜く、〜でき、」とつなぐ形にする
+      const p = points.map((b, i) => i < points.length - 1 ? b.dataset.join : b.dataset.text);
+      parts.push(endDot(p.join('、')));
+    }
+    if (free) parts.push(endDot(free));
+    if (improve) parts.push(endDot('気になった点は、' + improve));
+    return parts.join('\n');
+  }
+
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    const t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); } catch (e) {} t.remove(); return Promise.resolve();
+  }
+  function flash() { const el = document.getElementById('toast'); el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 2500); }
+
+  document.getElementById('make').addEventListener('click', () => {
+    const d = document.getElementById('draft');
+    d.value = compose();
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!d.value) d.placeholder = 'ご自由にお書きください';
+  });
+  document.getElementById('go').addEventListener('click', async () => {
+    await copy(document.getElementById('draft').value); flash();
+    setTimeout(() => { location.href = REVIEW_URL; }, 600);
+  });
+  document.getElementById('copyOnly').addEventListener('click', async () => {
+    await copy(document.getElementById('draft').value); flash();
+  });
+</script>
+</body>
+</html>
