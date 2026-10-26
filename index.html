@@ -90,21 +90,21 @@
     <h2><span class="no">3</span>良かったこと</h2>
     <p class="hint">あてはまるものを選んでください（いくつでも・なければ飛ばしてOK）</p>
     <div class="chips" data-group="good">
-      <button class="chip" type="button" data-kind="process" data-text="説明がわかりやすく、内容を理解したうえで進めることができました">説明がわかりやすい</button>
-      <button class="chip" type="button" data-kind="process" data-text="話しやすい雰囲気で、気軽に相談できました">相談しやすい</button>
-      <button class="chip" type="button" data-kind="process" data-text="連絡や対応が早くて助かりました">対応が早い</button>
-      <button class="chip" type="button" data-kind="process" data-text="手続きがスムーズに進みました">手続きがスムーズ</button>
-      <button class="chip" type="button" data-kind="process" data-text="こちらの事情をよく聞いてもらえました">事情を聞いてくれた</button>
-      <button class="chip" type="button" data-kind="process" data-text="手続きの流れを順番に教えてもらえたので、先の見通しが立ちました">流れを教えてくれた</button>
-      <button class="chip" type="button" data-kind="process" data-text="地元の事情に詳しく、話が早かったです">地元に詳しい</button>
-      <button class="chip" type="button" data-kind="process" data-text="条件についても、納得したうえで決めることができました">条件に納得できた</button>
-      <button class="chip" type="button" data-kind="result" data-text="売却まで進めることができました">売却・買取まで進められた</button>
-      <button class="chip" type="button" data-kind="result" data-text="今後どうするか、方針を決めることができました">今後の方針が決まった</button>
-      <button class="chip" type="button" data-kind="result" data-text="一人で抱えていた悩みが軽くなりました">気持ちが楽になった</button>
-      <button class="chip" type="button" data-kind="result" data-text="家族で話し合うきっかけにもなりました">家族で話し合えた</button>
-      <button class="chip" type="button" data-kind="result" data-text="条件に合う駐車場を見つけることができました">駐車場が見つかった</button>
-      <button class="chip" type="button" data-kind="result" data-text="通勤や毎日の生活が楽になりました">通勤・生活が楽になった</button>
-      <button class="chip" type="button" data-kind="result" data-text="管理の手間が減って、負担が軽くなりました">管理の手間が減った</button>
+      <button class="chip" type="button" data-kind="process" data-text="説明がわかりやすく、内容をきちんと理解できました" data-join="説明がわかりやすくて内容をきちんと理解でき">説明がわかりやすい</button>
+      <button class="chip" type="button" data-kind="process" data-text="話しやすい雰囲気で、気軽に相談できました" data-join="話しやすい雰囲気で気軽に相談でき">相談しやすい</button>
+      <button class="chip" type="button" data-kind="process" data-text="連絡や対応が早くて助かりました" data-join="連絡や対応が早く">対応が早い</button>
+      <button class="chip" type="button" data-kind="process" data-text="手続きがスムーズに進みました" data-join="手続きがスムーズに進み">手続きがスムーズ</button>
+      <button class="chip" type="button" data-kind="process" data-text="こちらの事情をよく聞いてもらえました" data-join="こちらの事情をよく聞いてもらえ">事情を聞いてくれた</button>
+      <button class="chip" type="button" data-kind="process" data-text="手続きの流れを順番に教えてもらえたので、先の見通しが立ちました" data-join="手続きの流れを順番に教えてもらえて先の見通しが立ち">流れを教えてくれた</button>
+      <button class="chip" type="button" data-kind="process" data-text="地元の事情に詳しく、話が早かったです" data-join="地元の事情に詳しくて話が早く">地元に詳しい</button>
+      <button class="chip" type="button" data-kind="process" data-text="条件についても、納得したうえで決めることができました" data-join="条件についても納得したうえで決めることができ">条件に納得できた</button>
+      <button class="chip" type="button" data-kind="result" data-text="売却まで進めることができました" data-join="売却まで進めることができ">売却・買取まで進められた</button>
+      <button class="chip" type="button" data-kind="result" data-text="今後どうするか、方針を決めることができました" data-join="今後の方針を決めることができ">今後の方針が決まった</button>
+      <button class="chip" type="button" data-kind="result" data-text="一人で抱えていた悩みが軽くなりました" data-join="一人で抱えていた悩みが軽くなり">気持ちが楽になった</button>
+      <button class="chip" type="button" data-kind="result" data-text="家族で話し合うきっかけにもなりました" data-join="家族で話し合うきっかけにもなり">家族で話し合えた</button>
+      <button class="chip" type="button" data-kind="result" data-text="条件に合う駐車場を見つけることができました" data-join="条件に合う駐車場が見つかり">駐車場が見つかった</button>
+      <button class="chip" type="button" data-kind="result" data-text="通勤や毎日の生活が楽になりました" data-join="通勤や毎日の生活が楽になり">通勤・生活が楽になった</button>
+      <button class="chip" type="button" data-kind="result" data-text="管理の手間が減って、負担が軽くなりました" data-join="管理の手間が減って負担が軽くなり">管理の手間が減った</button>
     </div>
   </section>
 
@@ -176,17 +176,28 @@
       parts.push(ongoing ? [`${t}でお世話になっています。`, `${t}をお願いしています。`, `${t}を任せています。`][v]
                          : [`${t}でお世話になりました。`, `先日、${t}でお世話になりました。`, `${t}の件で利用しました。`][v]);
     }
+    // 2つずつ1文にまとめる（「〜でき、〜できました。」）
+    const pairs = list => {
+      const out = [];
+      for (let i = 0; i < list.length; i += 2)
+        out.push(list[i + 1] ? list[i].dataset.join + '、' + list[i + 1].dataset.text.replace('、', '') : list[i].dataset.text);
+      return out;
+    };
     if (before.length) {
       const lead = ['利用する前は、', '相談する前は、', 'それまでは、'][v];
-      const items = before.map((b, i) => i < before.length - 1 ? b.dataset.join : b.dataset.text);
-      parts.push(endDot(lead + items.join('、')));
+      const chain = list => list.map((b, i) => i < list.length - 1 ? b.dataset.join : b.dataset.text).join('、');
+      if (before.length <= 3) parts.push(endDot(lead + chain(before)));
+      else {                                   // 長くなるので2文に分ける
+        const h = Math.ceil(before.length / 2);
+        parts.push(endDot(lead + chain(before.slice(0, h))));
+        parts.push(endDot(['さらに、', '加えて、', 'さらに、'][v] + chain(before.slice(h))));
+      }
     }
-    const proc = good.filter(b => b.dataset.kind === 'process').map(b => b.dataset.text);
-    const res = good.filter(b => b.dataset.kind === 'result').map(b => b.dataset.text);
-    const conn = [['', 'また、', 'それに、', 'ほかにも、'], ['', 'そして、', 'また、', 'ほかにも、'], ['', 'ほかにも、', 'また、', 'それに、']][v];
-    // 困っていたことを書いたときは、最初の文を「相談してみると、」でつなぐ
-    conn[0] = before.length ? ['相談してみると、', '実際にお願いすると、', ''][v] : '';
-    proc.forEach((t, i) => parts.push(endDot((i < conn.length ? conn[i] : 'また、') + t)));
+    const proc = pairs(good.filter(b => b.dataset.kind === 'process'));
+    const res = pairs(good.filter(b => b.dataset.kind === 'result'));
+    const first = before.length ? ['相談してみると、', '実際にお願いすると、', ''][v] : '';
+    const nexts = [['また、', 'それに、', 'ほかにも、'], ['ほかにも、', 'また、', 'それに、'], ['それに、', 'ほかにも、', 'また、']][v];
+    proc.forEach((t, i) => parts.push(endDot((i === 0 ? first : nexts[(i - 1) % 3]) + t)));
     res.forEach((t, i) => parts.push(endDot((i === 0 ? ['最終的に、', '結果として、', 'その後、'][v] : '') + t)));
     if (free) parts.push(endDot(polite(free)));
     return parts.join(String.fromCharCode(10));
