@@ -24,7 +24,8 @@
   h2 { font-size: 18px; margin: 0 0 4px; }
   h2 .no { display: inline-block; width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
            color: #fff; text-align: center; line-height: 28px; font-size: 15px; margin-right: 8px; }
-  .hint { font-size: 14px; color: var(--sub); margin: 0 0 12px; }
+  .hint { font-size: 14px; color: var(--sub); margin: 0 0 12px; transition: color .2s; }
+  .hint.warn { color: var(--warm); font-weight: 700; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip { border: 1.5px solid var(--line); background: #fff; color: var(--ink); border-radius: 999px;
           padding: 10px 16px; font-size: 16px; font-family: inherit; cursor: pointer; }
@@ -53,8 +54,8 @@
 
   <section>
     <h2><span class="no">1</span>どんなご用件でしたか</h2>
-    <p class="hint">あてはまるものを選んでください（いくつでも）</p>
-    <div class="chips" data-group="topic">
+    <p class="hint">あてはまるものを選んでください（2つまで）</p>
+    <div class="chips" data-group="topic" data-max="2">
       <button class="chip" type="button" data-text="月極駐車場の手続き">月極駐車場の契約・解約</button>
       <button class="chip" type="button" data-text="相続した実家の売却">相続した実家の売却</button>
       <button class="chip" type="button" data-text="空き家のこと">空き家のこと</button>
@@ -68,8 +69,8 @@
 
   <section>
     <h2><span class="no">2</span>ご利用の前に困っていたこと</h2>
-    <p class="hint">あてはまるものを選んでください（いくつでも・なければ飛ばしてOK）</p>
-    <div class="chips" data-group="before">
+    <p class="hint">あてはまるものを選んでください（3つまで・なければ飛ばしてOK）</p>
+    <div class="chips" data-group="before" data-max="3">
       <button class="chip" type="button" data-text="職場の近くに駐車場がなく、毎日の通勤で困っていました" data-join="職場の近くに駐車場がなく">職場の近くに駐車場がない</button>
       <button class="chip" type="button" data-text="家の近くに駐車場がなく、困っていました" data-join="家の近くに駐車場がなく">家の近くに駐車場がない</button>
       <button class="chip" type="button" data-text="車が増えて、駐車場が足りなくなっていました" data-join="車が増えて駐車場が足りず">車が増えた</button>
@@ -88,8 +89,8 @@
 
   <section>
     <h2><span class="no">3</span>良かったこと</h2>
-    <p class="hint">あてはまるものを選んでください（いくつでも・なければ飛ばしてOK）</p>
-    <div class="chips" data-group="good">
+    <p class="hint">あてはまるものを選んでください（4つまで・なければ飛ばしてOK）</p>
+    <div class="chips" data-group="good" data-max="4">
       <button class="chip" type="button" data-kind="process" data-text="説明がわかりやすく、内容をきちんと理解できました" data-join="説明がわかりやすくて内容をきちんと理解でき">説明がわかりやすい</button>
       <button class="chip" type="button" data-kind="process" data-text="話しやすい雰囲気で、気軽に相談できました" data-join="話しやすい雰囲気で気軽に相談でき">相談しやすい</button>
       <button class="chip" type="button" data-kind="process" data-text="連絡や対応が早くて助かりました" data-join="連絡や対応が早く">対応が早い</button>
@@ -144,7 +145,15 @@
 
   document.querySelectorAll('.chip').forEach(b => {
     b.setAttribute('aria-pressed', 'false');
-    b.addEventListener('click', () => b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'));
+    b.addEventListener('click', () => {
+      const box = b.parentElement, on = b.getAttribute('aria-pressed') === 'true';
+      if (!on && box.querySelectorAll('[aria-pressed="true"]').length >= +box.dataset.max) {
+        const hint = box.previousElementSibling;
+        hint.classList.add('warn'); setTimeout(() => hint.classList.remove('warn'), 1500);
+        return;
+      }
+      b.setAttribute('aria-pressed', on ? 'false' : 'true');
+    });
   });
 
   const chosen = g => [...document.querySelectorAll(`[data-group="${g}"] .chip[aria-pressed="true"]`)];
@@ -166,9 +175,11 @@
   let variant = 0;
   function compose() {
     const v = variant % 3, parts = [];
-    const topics = chosen('topic').map(b => b.dataset.text);
+    let topics = chosen('topic').map(b => b.dataset.text);
+    if (topics.length > 1) topics = topics.filter(t => t !== '不動産のこと');
     const before = chosen('before'), good = chosen('good');
-    const free = document.getElementById('free').value.trim();
+    let free = document.getElementById('free').value.trim();
+    if (/^(特に|とくに)?(なし|無し|ない|ないです|ありません|無いです)?[。.！!\s]*$/.test(free)) free = '';
 
     if (topics.length) {
       const t = joinJa(topics);
@@ -184,14 +195,9 @@
       return out;
     };
     if (before.length) {
-      const lead = ['利用する前は、', '相談する前は、', 'それまでは、'][v];
-      const chain = list => list.map((b, i) => i < list.length - 1 ? b.dataset.join : b.dataset.text).join('、');
-      if (before.length <= 3) parts.push(endDot(lead + chain(before)));
-      else {                                   // 長くなるので2文に分ける
-        const h = Math.ceil(before.length / 2);
-        parts.push(endDot(lead + chain(before.slice(0, h))));
-        parts.push(endDot(['さらに、', '加えて、', 'さらに、'][v] + chain(before.slice(h))));
-      }
+      const bp = pairs(before);
+      parts.push(endDot(['利用する前は、', '相談する前は、', 'それまでは、'][v] + bp[0]));
+      if (bp[1]) parts.push(endDot(['さらに、', '加えて、', 'さらに、'][v] + bp[1]));
     }
     const proc = pairs(good.filter(b => b.dataset.kind === 'process'));
     const res = pairs(good.filter(b => b.dataset.kind === 'result'));
